@@ -32,8 +32,13 @@ class Income {
     const _language = language || defaultLanguage;
 
     // TODO: Implement method
-    return null;
+    const convertedValue = new Intl.NumberFormat(_language, {
+      style: "currency",
+      currency: currency
+    }).format(value);
+    return convertedValue;
   }
+
 }
 
 export default Income;

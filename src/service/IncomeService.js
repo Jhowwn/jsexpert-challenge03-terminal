@@ -10,7 +10,29 @@ class IncomeService {
     const [position, expectation] = incomeString.split(delimiter);
 
     // @TODO: Implement method
-    return null;
+    if (!position ) {
+      throw new Error ("Position is a required field. Please make sure you are providing a position.");
+    }
+    if(!expectation || isNaN(expectation)) {
+      throw new Error ("A valid Expectation is required. Please note that only numbers are allowed.")
+    }
+
+    const income = new Income({ position });
+
+    income.expectation.value = +expectation;
+
+    const conversions = await this.incomeRepository.getConversions();
+
+    income.conversion01.value =
+      expectation * conversions[income.conversion01.currency];
+
+    income.conversion02.value =
+      expectation * conversions[income.conversion02.currency];
+
+    income.conversion03.value =
+      expectation * conversions[income.conversion03.currency];
+
+    return income;
   }
 }
 
